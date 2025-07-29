@@ -1,9 +1,8 @@
 import { useState, useContext } from "react";
 import { Form, Button, Alert, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "../axiosConfig";
-import setAuthToken from "../utils/setAuthToken";
 import { AuthContext } from "../context/AuthContext";
+import { registerUser, fetchUsers, loginUser } from "../api/auth.js";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -36,47 +35,45 @@ const Register = () => {
     setLoading(true);
 
     try {
-      // Register the user (custom endpoint or plugin support)
-      await axios.post("/wp/v2/users/register", {
+      const existingUsers = await fetchUsers();
+
+      const userExists = existingUsers.find(
+        (u) => u.username === username || u.email === email.toLowerCase()
+      );
+
+      if (userExists) {
+        setAlert({
+          message: "Username or email already exists",
+          variant: "danger",
+        });
+        setLoading(false);
+        return;
+      }
+
+      // Register user in jsonbin
+      await registerUser({
         username,
         email: email.toLowerCase(),
         password,
+        role: "user", // default role
       });
 
-      // Auto-login after successful registration
-      const loginRes = await axios.post("/jwt-auth/v1/token", {
-        username,
-        password,
-      });
+      // Simulate login immediately
+      const user = await loginUser(username, password);
 
-      const { token, user_display_name } = loginRes.data;
-
-      // Set auth token globally and in storage
-      setAuthToken(token);
-      localStorage.setItem("authToken", token);
-
-      // Update auth context
-      login({
-        name: user_display_name,
-        username,
-      });
-
-      setAlert({ message: "Registered successfully!", variant: "success" });
-
-      // Clear form
-      setFormData({
-        username: "",
-        email: "",
-        password: "",
-        confirmpassword: "",
-      });
-
-      // Navigate after short delay
-      setTimeout(() => navigate("/dashboard"), 1000);
+      if (user) {
+        login(user); // update context
+        setAlert({ message: "Registered and logged in!", variant: "success" });
+        setTimeout(() => navigate("/dashboard"), 1000);
+      } else {
+        setAlert({ message: "Login failed after registration", variant: "danger" });
+      }
     } catch (err) {
-      const errorMsg =
-        err.response?.data?.message || "Registration failed, please try again.";
-      setAlert({ message: errorMsg, variant: "danger" });
+      console.error(err);
+      setAlert({
+        message: "Something went wrong. Please try again.",
+        variant: "danger",
+      });
     } finally {
       setLoading(false);
     }

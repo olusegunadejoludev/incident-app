@@ -1,13 +1,13 @@
-// EditPost.js
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Form, Button, Spinner } from "react-bootstrap";
-import axios from "../axiosConfig";
+import { getPostById, editPost } from "../api/posts";
+import { AuthContext } from "../context/AuthContext";
 
 const EditPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
+  const { auth } = useContext(AuthContext);
 
   const [post, setPost] = useState({ title: "", content: "" });
   const [loading, setLoading] = useState(true);
@@ -15,25 +15,32 @@ const EditPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`/wp-json/wp/v2/posts/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const existingPost = await getPostById(id);
+
+        if (!existingPost) {
+          alert("Post not found.");
+          return navigate("/");
+        }
+
+        if (existingPost.author !== auth.user?.email) {
+          alert("You are not authorized to edit this post.");
+          return navigate("/");
+        }
 
         setPost({
-          title: response.data.title.raw || response.data.title.rendered,
-          content: response.data.content.raw || response.data.content.rendered,
+          title: existingPost.title,
+          content: existingPost.content,
         });
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching post:", error);
         alert("Could not fetch post.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPost();
-  }, [id, token]);
+  }, [id, auth.user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,19 +50,11 @@ const EditPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        `/wp-json/wp/v2/posts/${id}`,
-        {
-          title: post.title,
-          content: post.content,
-          status: "publish",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await editPost(id, {
+        ...post,
+        updatedAt: new Date().toISOString(),
+      });
+      alert("Post updated successfully!");
       navigate(`/posts/${id}`);
     } catch (error) {
       console.error("Error updating post:", error);

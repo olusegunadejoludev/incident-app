@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -9,23 +10,46 @@ const Contact = () => {
   });
 
   const [alert, setAlert] = useState(null);
+  const [isSending, setIsSending] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSending(true);
 
-    setAlert(
-      <Alert variant="success">
-        Thank you for reaching out! We'll get back to you soon.
-      </Alert>
-    );
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      message: formData.message,
+    };
 
-    setFormData({ name: "", email: "", message: "" });
+    try {
+      await emailjs.send(
+        process.env.REACT_APP_EMAILJS_SERVICE_ID, // EmailJS Service ID
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID, // EmailJS Template ID
+        templateParams,
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY // EmailJS Public Key
+      );
 
-    // You can integrate EmailJS, Formspree, or your own API here.
+      setAlert(
+        <Alert variant="success">
+          Thank you for reaching out! We'll get back to you soon.
+        </Alert>
+      );
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      setAlert(
+        <Alert variant="danger">
+          Oops! Something went wrong. Please try again later.
+        </Alert>
+      );
+    }
+
+    setIsSending(false);
   };
 
   return (
@@ -76,8 +100,8 @@ const Contact = () => {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" disabled={!!alert}>
-            Submit
+          <Button variant="primary" type="submit" disabled={isSending}>
+            {isSending ? "Sending..." : "Submit"}
           </Button>
         </Form>
       </div>

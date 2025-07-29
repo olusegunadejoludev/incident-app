@@ -1,29 +1,29 @@
 # Simple Blog App
 
-This is a simple blog app built with React for the frontend and Wordpress (In progress) for the backend. It allows users to register, login, create, edit, and delete blog posts.
+This is a simple blog application built with React (frontend) and JSONBin.io (as the backend database). It supports user registration, login, and complete blog post CRUD operations (Create, Read, Update, Delete). Email notifications are handled using EmailJS.
 
-![Screenshot](frontend/src/assets/img/blog-logo.png)
+![Screenshot](/src/assets/img/blog-logo.png)
 
 ## Features
 
-- User authentication (register, login, logout)
-- Create, edit, and delete blog posts
-- View blog posts
-- Protected routes for creating, editing, and deleting posts
-- Responsive design
+✅ User Authentication (Register, Login, Logout)
+📝 Create, Edit, and Delete Posts
+🔒 Protected Routes for Authenticated Users
+🖼️ Optional Image Upload for Posts
+📬 Contact Form with EmailJS Integration
+💻 Responsive UI (Mobile/Desktop)
 
 ## Technologies Used
 
 ### Frontend
-
 - React
-- React Router
-- Bootstrap
+- React Router DOM
 - Axios
+- Bootstrap (React-Bootstrap)
 
 ### Backend
-
-- In progress
+- EmailJS (for contact form)
+- JSONBin.io (used as REST API storage)
 
 ## How to Use
 
@@ -44,46 +44,52 @@ This is a simple blog app built with React for the frontend and Wordpress (In pr
    cd blog_app
    ```
    
-3. Install dependencies for both the frontend and backend:
+3. Install dependencies:
    ```
-   # Install backend dependencies
-   cd backend
-   npm install
-
-   # Install frontend dependencies
-   cd ../frontend
    npm install
    ```
   
 4. Set up environment variables:
-   - For the backend, create a .env file in the backend directory and add the following variables:
+   - Create a .env file in the root of the project and add the following variables:
      ```
-     PORT=3000
-     BASE_URI=http://localhost:3000
-     JWT_SECRET=your_jwt_secret
+     REACT_APP_JSONBIN_API_KEY=your_jsonbin_api_key
+     REACT_APP_JSONBIN_BIN__USER_ID=your_users_bin_id
+     REACT_APP_JSONBIN_BIN__POSTS_ID=your_posts_bin_id
+
+      REACT_APP_EMAILJS_SERVICE_ID=your_emailjs_service_id
+      REACT_APP_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
+      REACT_APP_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
+
      ```
-  - Replace your_jwt_secret with a random string for JWT secret.
     
-5. Run the backend server:
+5. ▶️ Run the App:
    ```
-   # Navigate to the backend directory
-   cd backend
+   # Navigate to the project directory
+   cd blog_app
 
    # Start the server
    npm start
    ```
    
-6. Run the frontend server:
-   ```
-   # Navigate to the frontend directory
-   cd ../frontend
+6. Open your web browser and visit http://localhost:3000 to use the blog app.
 
-   # Start the server
-   npm start
+7. 📬 Contact Form Setup (EmailJS)
+   
+   To enable the contact form:
+   ```
+   Create an account at EmailJS
+   Set up your email service, template, and get your public key
+   Copy those values into your .env file as shown above
+
    ```
    
-7. Open your web browser and visit http://localhost:3000 to use the blog app.
+8.  Image Upload Support
 
+   To enable image upload support:
+   ```
+   When creating or editing a blog post, users can upload an image file. This image is stored as a base64 string in the JSONBin data for that post and rendered in the blog UI.
+
+   ```
 
 ## Contributing
 

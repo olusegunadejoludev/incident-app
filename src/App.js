@@ -3,13 +3,11 @@ import "./assets/css/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // React and routing
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
-// Context and utilities
+// Context
 import { AuthContext } from "./context/AuthContext";
-import setAuthToken from "./utils/setAuthToken";
-import axios from "./axiosConfig";
 
 // Layout Components
 import Header from "./components/Header";
@@ -25,6 +23,7 @@ import Dashboard from "./pages/Dashboard";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import BlogPost from "./pages/BlogPost";
+import DeletePost from "./pages/DeletePost";
 
 // Protected route wrapper
 import PrivateRoute from "./components/PrivateRoute";
@@ -34,41 +33,6 @@ function App() {
     isAuthenticated: false,
     user: null,
   });
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("authToken");
-
-      if (!token) return;
-
-      try {
-        setAuthToken(token);
-
-        const res = await axios.get("/wp/v2/users/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setAuth({
-          isAuthenticated: true,
-          user: res.data,
-        });
-      } catch (err) {
-        console.error("Token expired or invalid:", err);
-        localStorage.removeItem("authToken");
-        setAuth({
-          isAuthenticated: false,
-          user: null,
-        });
-        navigate("/login");
-      }
-    };
-
-    fetchUser();
-  }, [navigate]);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
@@ -87,9 +51,10 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/create" element={<CreatePost />} />
               <Route path="/edit/:id" element={<EditPost />} />
+              <Route path="/delete/:id" element={<DeletePost />} />
             </Route>
 
-            {/* Public route */}
+            {/* Public post route */}
             <Route path="/posts/:id" element={<BlogPost />} />
           </Routes>
         </main>
