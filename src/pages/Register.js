@@ -18,8 +18,6 @@ const Register = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const { username, email, password, confirmpassword } = formData;
-
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -27,9 +25,13 @@ const Register = () => {
     e.preventDefault();
     setAlert({ message: "", variant: "" });
 
+    const { username, email, password, confirmpassword } = formData;
+
     if (password !== confirmpassword) {
-      setAlert({ message: "Passwords do not match", variant: "danger" });
-      return;
+      return setAlert({
+        message: "Passwords do not match",
+        variant: "danger",
+      });
     }
 
     setLoading(true);
@@ -37,8 +39,10 @@ const Register = () => {
     try {
       const existingUsers = await fetchUsers();
 
-      const userExists = existingUsers.find(
-        (u) => u.username === username || u.email === email.toLowerCase()
+      const userExists = existingUsers?.some(
+        (u) =>
+          u.username.toLowerCase() === username.toLowerCase() ||
+          u.email.toLowerCase() === email.toLowerCase()
       );
 
       if (userExists) {
@@ -46,30 +50,37 @@ const Register = () => {
           message: "Username or email already exists",
           variant: "danger",
         });
-        setLoading(false);
         return;
       }
 
-      // Register user in jsonbin
+      // Register user
       await registerUser({
         username,
         email: email.toLowerCase(),
         password,
-        role: "user", // default role
+        role: "user",
       });
 
-      // Simulate login immediately
+      // Auto login
       const user = await loginUser(username, password);
 
       if (user) {
-        login(user); // update context
-        setAlert({ message: "Registered and logged in!", variant: "success" });
-        setTimeout(() => navigate("/dashboard"), 1000);
+        login(user); // update global context
+        setAlert({
+          message: "Registered and logged in!",
+          variant: "success",
+        });
+
+        // Delay to show success alert before redirecting
+        setTimeout(() => navigate("/dashboard"), 1200);
       } else {
-        setAlert({ message: "Login failed after registration", variant: "danger" });
+        setAlert({
+          message: "Login failed after registration",
+          variant: "danger",
+        });
       }
     } catch (err) {
-      console.error(err);
+      console.error("Registration Error:", err);
       setAlert({
         message: "Something went wrong. Please try again.",
         variant: "danger",
@@ -91,10 +102,10 @@ const Register = () => {
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Choose a username"
-              value={username}
-              onChange={handleChange}
               name="username"
+              placeholder="Choose a username"
+              value={formData.username}
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -103,10 +114,10 @@ const Register = () => {
             <Form.Label>Email Address</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={handleChange}
               name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -115,10 +126,10 @@ const Register = () => {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Create a password"
-              value={password}
-              onChange={handleChange}
               name="password"
+              placeholder="Create a password"
+              value={formData.password}
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -127,15 +138,20 @@ const Register = () => {
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Re-enter your password"
-              value={confirmpassword}
-              onChange={handleChange}
               name="confirmpassword"
+              placeholder="Re-enter your password"
+              value={formData.confirmpassword}
+              onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" className="w-100" disabled={loading}>
+          <Button
+            variant="primary"
+            type="submit"
+            className="w-100"
+            disabled={loading}
+          >
             {loading ? "Registering..." : "Register"}
           </Button>
         </Form>

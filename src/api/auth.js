@@ -1,39 +1,70 @@
 // src/api/auth.js
 import { headers, bins } from "./client";
 
-// Get users
+// Fetch all users
 export const fetchUsers = async () => {
   const res = await fetch(`https://api.jsonbin.io/v3/b/${bins.users}/latest`, {
     headers,
   });
-  const json = await res.json();
-  return json.record || [];
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch users");
+  }
+
+  const data = await res.json();
+  return data.record || [];
 };
 
-// Save users
+// Save users list
 const saveUsers = async (users) => {
-  await fetch(`https://api.jsonbin.io/v3/b/${bins.users}`, {
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${bins.users}`, {
     method: "PUT",
     headers,
     body: JSON.stringify(users),
   });
+
+  if (!res.ok) {
+    throw new Error("Failed to save users");
+  }
 };
 
-// Register
-export const registerUser = async (user) => {
+// Register a new user
+export const registerUser = async (newUser) => {
   const users = await fetchUsers();
-  const exists = users.find((u) => u.username === user.username);
-  if (exists) throw new Error("Username already exists");
-  users.push(user);
+
+  const userExists = users.some(
+    (u) =>
+      u.username.toLowerCase() === newUser.username.toLowerCase() ||
+      u.email.toLowerCase() === newUser.email.toLowerCase()
+  );
+
+  if (userExists) {
+    throw new Error("Username or email already exists");
+  }
+
+  users.push({
+    ...newUser,
+    email: newUser.email.toLowerCase(),
+    username: newUser.username,
+    role: newUser.role || "user",
+  });
+
   await saveUsers(users);
 };
 
-// Login
+// Login a user
 export const loginUser = async (username, password) => {
   const users = await fetchUsers();
+
   const user = users.find(
-    (u) => u.username === username && u.password === password
+    (u) =>
+      u.username.toLowerCase() === username.toLowerCase() &&
+      u.password === password
   );
-  if (!user) throw new Error("Invalid credentials");
+
+  if (!user) {
+    throw new Error("Invalid credentials");
+  }
+
   return user;
 };
