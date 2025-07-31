@@ -39,8 +39,8 @@ function Footer() {
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex footer-socials">
           {/* Twitter link */}
           <li className="ms-3">
-            <a className="text-body-secondary" href="https://twitter.com">
-              <i className="fa-brands fa-twitter fa-xl"></i>
+            <a className="text-body-secondary" href="https://x.com">
+              <i className="fa-brands fa-x-twitter fa-xl"></i>
             </a>
           </li>
           {/* Instagram link */}
