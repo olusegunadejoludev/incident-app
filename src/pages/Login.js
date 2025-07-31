@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Alert, Button, Form, Container } from "react-bootstrap";
+import { Alert, Button, Form, Container, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { loginUser } from "../api/auth.js"; // ← JsonBin API function to login user
@@ -7,6 +7,7 @@ import { loginUser } from "../api/auth.js"; // ← JsonBin API function to login
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // 👈 show/hide toggle
   const [alertMessage, setAlertMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -19,15 +20,13 @@ const Login = () => {
     setAlertMessage(null);
 
     try {
-      const user = await loginUser(username, password);
+      const cleanUsername = username.trim().toLowerCase();
+      const cleanPassword = password.trim();
 
-      // Save user in localStorage
+      const user = await loginUser(cleanUsername, cleanPassword);
+
       localStorage.setItem("user", JSON.stringify(user));
-
-      // Update global auth context
       login(user);
-
-      // Redirect to dashboard
       navigate("/dashboard");
     } catch (error) {
       setAlertMessage(
@@ -61,13 +60,22 @@ const Login = () => {
 
           <Form.Group className="mb-4" controlId="formPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <InputGroup>
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <Button
+                variant="outline-secondary"
+                onClick={() => setShowPassword((prev) => !prev)}
+                tabIndex={-1}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </Button>
+            </InputGroup>
           </Form.Group>
 
           <Button variant="primary" type="submit" className="w-100" disabled={loading}>

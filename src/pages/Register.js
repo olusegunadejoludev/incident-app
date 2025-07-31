@@ -14,6 +14,8 @@ const Register = () => {
 
   const [alert, setAlert] = useState({ message: "", variant: "" });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -82,7 +84,7 @@ const Register = () => {
     } catch (err) {
       console.error("Registration Error:", err);
       setAlert({
-        message: "Something went wrong. Please try again.",
+        message: err.message || "Something went wrong. Please try again.",
         variant: "danger",
       });
     } finally {
@@ -125,24 +127,38 @@ const Register = () => {
           <Form.Group className="mb-3" controlId="formPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Create a password"
               value={formData.password}
               onChange={handleChange}
               required
             />
+            <Form.Check
+              type="checkbox"
+              label="Show password"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+              className="mt-2"
+            />
           </Form.Group>
 
           <Form.Group className="mb-4" controlId="formConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
-              type="password"
+              type={showConfirm ? "text" : "password"}
               name="confirmpassword"
               placeholder="Re-enter your password"
               value={formData.confirmpassword}
               onChange={handleChange}
               required
+            />
+            <Form.Check
+              type="checkbox"
+              label="Show confirm password"
+              checked={showConfirm}
+              onChange={() => setShowConfirm(!showConfirm)}
+              className="mt-2"
             />
           </Form.Group>
 

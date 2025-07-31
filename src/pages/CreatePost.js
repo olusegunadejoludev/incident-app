@@ -5,7 +5,11 @@ import { AuthContext } from "../context/AuthContext";
 import { createPost } from "../api/posts";
 
 const CreatePost = () => {
-  const [post, setPost] = useState({ title: "", content: "" });
+  const [post, setPost] = useState({
+    title: "",
+    content: "",
+    category: "Tech", // default category
+  });
   const [imageFile, setImageFile] = useState(null);
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -17,7 +21,7 @@ const CreatePost = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.size < 2 * 1024 * 1024) { // 2MB limit
+    if (file && file.size < 2 * 1024 * 1024) {
       setImageFile(file);
     } else {
       alert("Image is too large. Please upload a file smaller than 2MB.");
@@ -53,12 +57,11 @@ const CreatePost = () => {
 
     try {
       let imageData = null;
-
       if (imageFile) {
         try {
           imageData = await compressImage(imageFile);
-        } catch (err) {
-          console.warn("Image compression failed, proceeding without image.");
+        } catch {
+          console.warn("Image compression failed.");
         }
       }
 
@@ -66,13 +69,13 @@ const CreatePost = () => {
         id: crypto.randomUUID(),
         title: post.title.trim(),
         content: post.content.trim(),
+        category: post.category, // include selected category
         image: imageData || null,
         author: auth.user?.username || auth.user?.email || "anonymous",
         createdAt: new Date().toISOString(),
       };
 
       await createPost(newPost);
-
       alert("Post created successfully!");
       navigate("/dashboard");
     } catch (error) {
@@ -106,6 +109,22 @@ const CreatePost = () => {
             onChange={handleChange}
             required
           />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="category">
+          <Form.Label>Post Category</Form.Label>
+          <Form.Select
+            name="category"
+            value={post.category}
+            onChange={handleChange}
+            required
+          >
+            <option value="Tech">Tech</option>
+            <option value="Politics">Politics</option>
+            <option value="Business">Business</option>
+            <option value="Lifestyle">Lifestyle</option>
+            <option value="Education">Education</option>
+          </Form.Select>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="imageUpload">

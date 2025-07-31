@@ -77,7 +77,7 @@ function Header() {
               <div>
                 {/* Display user's name and logout button if authenticated */}
                 <span className="me-2 text-white fw-bold">
-                  {auth.user.name}
+                  {auth.user.username}
                 </span>
                 <Button onClick={logout} variant="danger" aria-label="logout">
                   Logout

@@ -2,12 +2,12 @@
 import "./assets/css/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+// Import React Toastify
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // React and routing
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
-
-// Context
-import { AuthContext } from "./context/AuthContext";
 
 // Layout Components
 import Header from "./components/Header";
@@ -29,13 +29,8 @@ import DeletePost from "./pages/DeletePost";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
-  const [auth, setAuth] = useState({
-    isAuthenticated: false,
-    user: null,
-  });
-
+  
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
       <div className="App">
         <Header />
         <main>
@@ -59,8 +54,8 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <ToastContainer position="top-right" autoClose={3000} />
       </div>
-    </AuthContext.Provider>
   );
 }
 

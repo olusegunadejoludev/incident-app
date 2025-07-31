@@ -1,10 +1,10 @@
 // src/api/posts.js
-import { headers, bins } from "./client";
+import { Headers } from "./client";
 
 // Get all posts
 export const getAllPosts = async () => {
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${bins.posts}/latest`, {
-    headers,
+  const res = await fetch('https://api.jsonbin.io/v3/b/6889c10cae596e708fbe044c/latest', {
+    headers: Headers,
   });
   const json = await res.json();
   return json.record || [];
@@ -20,10 +20,10 @@ export const getPostById = async (id) => {
 
 // Save updated posts array to JSONBin
 const savePosts = async (posts) => {
-  await fetch(`https://api.jsonbin.io/v3/b/${bins.posts}`, {
+  await fetch('https://api.jsonbin.io/v3/b/6889c10cae596e708fbe044c', {
     method: "PUT",
-    headers,
-    body: JSON.stringify(posts),
+    headers: Headers,
+    body: JSON.stringify({ record: posts }),
   });
 };
 
