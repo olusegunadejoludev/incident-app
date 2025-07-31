@@ -5,7 +5,7 @@ function About() {
   return (
     <Container className="text-center mx-4" id="about">
       <h1>About</h1>
-      <p>Welcome to Blog Web! 🎉</p>
+      <p>Welcome to Blog App! 🎉</p>
       <p>
         Welcome to our blog! This is where we share interesting articles,
         stories, and insights about various topics. Our goal is to provide

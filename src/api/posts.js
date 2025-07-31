@@ -7,6 +7,7 @@ export const getAllPosts = async () => {
     headers: Headers,
   });
   const json = await res.json();
+  console.log("📤 Retrieved posts:", json.record);
   return json.record || [];
 };
 
@@ -18,25 +19,30 @@ export const getPostById = async (id) => {
   return post;
 };
 
-// Save updated posts array to JSONBin
+// Save updated posts array to JSONBin (FIXED!)
 const savePosts = async (posts) => {
   await fetch('https://api.jsonbin.io/v3/b/6889c10cae596e708fbe044c', {
     method: "PUT",
     headers: Headers,
-    body: JSON.stringify({ record: posts }),
+    body: JSON.stringify(posts), // ✅ save raw array
   });
 };
 
 // Create a new post
 export const createPost = async (post) => {
   const posts = await getAllPosts();
+  console.log("📥 Existing posts:", posts);
+
   const newPost = {
     ...post,
-    id: Date.now().toString(), // Unique ID
+    id: Date.now().toString(),
     createdAt: new Date().toISOString(),
   };
-  posts.push(newPost);
-  await savePosts(posts);
+
+  const updatedPosts = [...posts, newPost];
+  console.log("📝 Saving updated posts:", updatedPosts);
+
+  await savePosts(updatedPosts);
   return newPost;
 };
 

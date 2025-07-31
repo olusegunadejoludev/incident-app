@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Container, Card, Spinner, Alert } from "react-bootstrap";
+import { Container, Card, Spinner, Alert, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllPosts, deletePost } from "../api/posts";
 import { AuthContext } from "../context/AuthContext";
@@ -79,7 +79,15 @@ const Dashboard = () => {
 
             <Card.Body>
               <Card.Title>{post.title}</Card.Title>
+
+              {post.category && (
+                <Badge bg="info" className="mb-2 text-white">
+                  {post.category}
+                </Badge>
+              )}
+
               <Card.Text>{truncateContent(post.content, 200)}</Card.Text>
+
               <small className="text-muted">By {post.author}</small> <br />
               <small className="text-muted">
                 {new Date(post.createdAt).toLocaleString()}

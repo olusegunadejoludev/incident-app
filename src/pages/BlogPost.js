@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Container, Button, Spinner } from "react-bootstrap";
+import { Container, Button, Spinner, Badge } from "react-bootstrap";
 import { getPostById, deletePost } from "../api/posts";
 import { AuthContext } from "../context/AuthContext";
 
@@ -60,6 +60,12 @@ const BlogPost = () => {
     <Container className="mt-4">
       <h1>{post.title}</h1>
 
+      {post.category && (
+        <Badge bg="info" className="mb-3">
+          {post.category}
+        </Badge>
+      )}
+
       {post.image && (
         <img
           src={post.image}
@@ -78,9 +84,9 @@ const BlogPost = () => {
         <strong>Date:</strong> {new Date(post.createdAt).toLocaleString()}
       </p>
 
-      {(auth.user?.email === post.author || auth.user?.role === "admin") && (
+      {(auth.user?.username === post.author || auth.user?.role === "admin") && (
         <div className="mt-3">
-          {auth.user?.email === post.author && (
+          {auth.user?.username === post.author && (
             <Button variant="warning" as={Link} to={`/edit/${post.id}`}>
               Edit
             </Button>

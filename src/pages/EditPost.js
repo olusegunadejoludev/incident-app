@@ -9,7 +9,12 @@ const EditPost = () => {
   const navigate = useNavigate();
   const { auth } = useContext(AuthContext);
 
-  const [post, setPost] = useState({ title: "", content: "" });
+  const [post, setPost] = useState({
+    title: "",
+    content: "",
+    category: "",
+  });
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +35,7 @@ const EditPost = () => {
         setPost({
           title: existingPost.title,
           content: existingPost.content,
+          category: existingPost.category || "",
         });
       } catch (error) {
         console.error("Error fetching post:", error);
@@ -84,6 +90,18 @@ const EditPost = () => {
             required
           />
         </Form.Group>
+
+        <Form.Group className="mb-3" controlId="category">
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            type="text"
+            name="category"
+            value={post.category}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="content">
           <Form.Label>Content</Form.Label>
           <Form.Control
@@ -95,6 +113,7 @@ const EditPost = () => {
             required
           />
         </Form.Group>
+
         <div className="d-flex justify-content-between">
           <Button type="submit" variant="primary">
             Update Post
