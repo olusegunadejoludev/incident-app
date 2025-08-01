@@ -124,43 +124,48 @@ const Register = () => {
             />
           </Form.Group>
 
+          {/* Password Field */}
           <Form.Group className="mb-3" controlId="formPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Create a password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            <Form.Check
-              type="checkbox"
-              label="Show password"
-              checked={showPassword}
-              onChange={() => setShowPassword(!showPassword)}
-              className="mt-2"
-            />
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Create a password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                />
           </Form.Group>
+                <Form.Check
+                  type="checkbox"
+                  label="Show password"
+                  id="togglePasswordVisibility"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                  className="mb-3"
+                  />
 
+          {/* Confirm Password Field */}
           <Form.Group className="mb-4" controlId="formConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type={showConfirm ? "text" : "password"}
-              name="confirmpassword"
-              placeholder="Re-enter your password"
-              value={formData.confirmpassword}
-              onChange={handleChange}
-              required
-            />
-            <Form.Check
-              type="checkbox"
-              label="Show confirm password"
-              checked={showConfirm}
-              onChange={() => setShowConfirm(!showConfirm)}
-              className="mt-2"
-            />
+              <Form.Control
+                type={showConfirm ? "text" : "password"}
+                name="confirmpassword"
+                placeholder="Re-enter your password"
+                value={formData.confirmpassword}
+                onChange={handleChange}
+                required
+              />
           </Form.Group>
+                <Form.Check
+                type="checkbox"
+                label="Show confirm password"
+                id="toggleConfirmPasswordVisibility"
+                checked={showConfirm}
+                onChange={() => setShowConfirm(!showConfirm)}
+                className="mb-4"
+                />
+
 
           <Button
             variant="primary"
