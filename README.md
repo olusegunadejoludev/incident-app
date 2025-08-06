@@ -1,17 +1,18 @@
-# Simple Blog App
+# 🚨 Incident Reporting App
 
-This is a simple blog application built with React (frontend) and JSONBin.io (as the backend database). It supports user registration, login, and complete blog post CRUD operations (Create, Read, Update, Delete). Email notifications are handled using EmailJS.
+A simple and effective incident reporting system built with React and powered by JSONBin.io for backend storage. Users can report incidents by category, attach optional images, and view a dashboard of submitted reports.
 
-![Screenshot](/src/assets/img/blog-logo.png)
+![Screenshot](/src/assets/img/incident-logo.png)
 
 ## Features
 
-✅ User Authentication (Register, Login, Logout)
-📝 Create, Edit, and Delete Posts
-🔒 Protected Routes for Authenticated Users
-🖼️ Optional Image Upload for Posts
-📬 Contact Form with EmailJS Integration
-💻 Responsive UI (Mobile/Desktop)
+🔐 User Authentication (Register, Login, Logout)
+🗂️ Categorized Incident Reports (e.g., Fire, Oil Spill, Flood)
+📸 Optional Image Upload for Reports
+🧾 Detailed Incident Descriptions
+📄 Admin & User Dashboards
+📨 Contact Form with EmailJS Integration
+💻 Responsive UI (Mobile & Desktop)
 
 ## Technologies Used
 
@@ -36,12 +37,12 @@ This is a simple blog application built with React (frontend) and JSONBin.io (as
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/olusegunadejoludev/blog_app.git
+   git clone https://github.com/olusegunadejoludev/incident-app.git
    ```
    
 2. Navigate to the project directory:
    ```
-   cd blog_app
+   cd incident-app
    ```
    
 3. Install dependencies:
@@ -65,13 +66,13 @@ This is a simple blog application built with React (frontend) and JSONBin.io (as
 5. ▶️ Run the App:
    ```
    # Navigate to the project directory
-   cd blog_app
+   cd incident-app
 
    # Start the server
    npm start
    ```
    
-6. Open your web browser and visit http://localhost:3000 to use the blog app.
+6. Open your web browser and visit http://localhost:3000 to use the incident app.
 
 7. 📬 Contact Form Setup (EmailJS)
    
@@ -87,9 +88,22 @@ This is a simple blog application built with React (frontend) and JSONBin.io (as
 
    To enable image upload support:
    ```
-   When creating or editing a blog post, users can upload an image file. This image is stored as a base64 string in the JSONBin data for that post and rendered in the blog UI.
+   When creating or editing an incident post, users can upload an image file. This image is stored as a base64 string in the JSONBin data for that post and rendered in the incident app UI.
 
    ```
+
+9.  🧩 Incident Categories Supported
+     
+     The incident app supports the following categories:
+   - 🔥 Fire Outbreak
+   - 🌊 Flooding
+   - 🛢️ Oil Spills
+   - 🧍 Assault
+   - 🚨 Robbery
+   - ⚡ Power Failure
+   - 🚗 Road Accident
+   - 🦠 Environmental Hazard
+   - 🏚️ Building Collapse
 
 ## Contributing
 
