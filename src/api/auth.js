@@ -1,8 +1,8 @@
 import { Headers } from "./client";
 import { toast } from "react-toastify";
 
-const BIN_USERS_URL_LATEST = "https://api.jsonbin.io/v3/b/6889c0d3ae596e708fbe0411/latest";
-const BIN_USERS_URL_PUT = "https://api.jsonbin.io/v3/b/6889c0d3ae596e708fbe0411";
+const BIN_USERS_URL_LATEST = "https://api.jsonbin.io/v3/b/68936ce1ae596e708fc3326f/latest";
+const BIN_USERS_URL_PUT = "https://api.jsonbin.io/v3/b/68936ce1ae596e708fc3326f";
 
 // ✅ Fetch all users from JSONBin
 export const fetchUsers = async () => {

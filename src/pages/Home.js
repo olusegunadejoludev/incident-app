@@ -9,7 +9,7 @@ const Homepage = () => {
       {/* Bootstrap Container for centering content */}
       <Container className="text-center mt-5">
         {/* Main heading */}
-        <h1 className="display-4 fw-bold">Welcome to Blog App</h1>
+        <h1 className="display-4 fw-bold">Welcome to Incident App</h1>
         
         {/* Subheading with navigation links */}
         <h5>

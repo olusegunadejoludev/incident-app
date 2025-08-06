@@ -4,7 +4,7 @@ import { Container, Button, Spinner, Badge } from "react-bootstrap";
 import { getPostById, deletePost } from "../api/posts";
 import { AuthContext } from "../context/AuthContext";
 
-const BlogPost = () => {
+const IncidentPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { auth } = useContext(AuthContext);
@@ -100,4 +100,4 @@ const BlogPost = () => {
   );
 };
 
-export default BlogPost;
+export default IncidentPost;

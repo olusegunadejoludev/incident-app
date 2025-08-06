@@ -5,15 +5,15 @@ function About() {
   return (
     <Container className="text-center mx-4" id="about">
       <h1>About</h1>
-      <p>Welcome to Blog App! 🎉</p>
+      <p>Welcome to Incident App! 🎉</p>
       <p>
-        Welcome to our blog! This is where we share interesting articles,
-        stories, and insights about various topics. Our goal is to provide
-        valuable content to our readers and create a community where people can
-        engage and learn from each other.
+        Welcome to our incident reporting app! This is where we share important
+        information about various incidents and updates in our community. Our
+        goal is to provide a platform for users to report incidents, seek help,
+        and stay informed.
       </p>
       <p>
-        Feel free to explore our blog posts and don't hesitate to leave your
+        Feel free to explore our incident posts and don't hesitate to leave your
         comments and feedback. We appreciate your support and hope you enjoy
         your time here!
       </p>

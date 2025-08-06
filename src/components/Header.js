@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"; // For creating navigation links
 import { useContext, useState } from "react"; // Hooks to access React context and manage state
 import { Navbar, Nav, Container, Button } from "react-bootstrap"; // Bootstrap components
 import { AuthContext } from "../context/AuthContext"; // Custom context for authentication
-import blogLogo from "../assets/img/blog-logo.png"; // Blog logo image
+import incidentLogo from "../assets/img/incident-logo.png"; // logo image
 
 // Header component definition
 function Header() {
@@ -20,7 +20,7 @@ function Header() {
   return (
     // Bootstrap Navbar component with custom class
     <Navbar
-      bg="primary"
+      bg="secondary"
       variant="dark"
       expand="lg"
       className="custom-navbar"
@@ -30,11 +30,13 @@ function Header() {
         {/* Navbar brand with conditional link based on auth status */}
         <Navbar.Brand as={Link} to={auth.isAuthenticated ? "/dashboard" : "/"}>
           <img
-            src={blogLogo}
-            alt="Blog Logo"
+            src={incidentLogo}
+            alt="Incident Logo"
+            height="50"
+            width="40"
             className="d-inline-block align-top"
           />
-          <h1 className="fs-3 d-inline-block ms-2">Blog App</h1>
+          <h1 className="fs-2 d-inline-block ms-2 mb-0">Incident App</h1>
         </Navbar.Brand>
 
         {/* Responsive toggle for mobile view */}

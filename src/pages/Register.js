@@ -173,7 +173,7 @@ const Register = () => {
             className="w-100"
             disabled={loading}
           >
-            {loading ? "Registering..." : "Register"}
+          {loading ? "Registering..." : "Register"}
           </Button>
         </Form>
 

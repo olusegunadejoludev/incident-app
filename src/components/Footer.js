@@ -1,7 +1,7 @@
 // Import necessary dependencies and assets
 import { Container } from "react-bootstrap"; // For layout container
 import { Link } from "react-router-dom"; // For internal navigation links
-import blogLogo from "../assets/img/blog-logo.png"; // Blog logo image
+import incidentLogo from "../assets/img/incident-logo.png"; // Blog logo image
 import { useState, useEffect } from "react"; // React hooks for state and side effects
 
 // Footer component
@@ -27,11 +27,16 @@ function Footer() {
             to="/"
             className="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1 footer-logo"
           >
-            <img src={blogLogo} alt="blog logo" />
+            <img 
+            src={incidentLogo} 
+            alt="incident logo"
+            height="50"
+            width="40"
+            />
           </Link>
           {/* Copyright text with dynamic year */}
           <span className="mb-3 mb-md-0 text-body-secondary">
-            {currentYear} &copy; Blog App
+            {currentYear} &copy; Incident App
           </span>
         </div>
 

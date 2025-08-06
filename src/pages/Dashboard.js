@@ -4,6 +4,57 @@ import { Link } from "react-router-dom";
 import { getAllPosts, deletePost } from "../api/posts";
 import { AuthContext } from "../context/AuthContext";
 
+const getBadgeVariant = (category) => {
+  switch (category) {
+    case "Crime":
+      return "danger";
+    case "Accident":
+      return "warning text-dark";
+    case "Emergency":
+      return "primary";
+    case "Public Disturbance":
+      return "info text-dark";
+    case "Missing / Found":
+      return "secondary";
+    case "Suspicious Activity":
+      return "dark";
+    case "Environmental Hazard":
+      return "success";
+    case "Harassment / Abuse":
+      return "danger";
+    case "Other":
+      return "light text-dark";
+    default:
+      return "dark";
+  }
+};
+
+const getCategoryIcon = (category) => {
+  switch (category) {
+    case "Crime":
+      return "🚔";
+    case "Accident":
+      return "💥";
+    case "Emergency":
+      return "🚨";
+    case "Public Disturbance":
+      return "📢";
+    case "Missing / Found":
+      return "🧍‍♂️❓";
+    case "Suspicious Activity":
+      return "🕵️‍♂️";
+    case "Environmental Hazard":
+      return "🌍⚠️";
+    case "Harassment / Abuse":
+      return "🚫";
+    case "Other":
+      return "📄";
+    default:
+      return "❔";
+  }
+};
+
+
 const Dashboard = () => {
   const { auth } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
@@ -59,7 +110,7 @@ const Dashboard = () => {
           </Spinner>
         </div>
       ) : (
-        <h1>Blog Posts</h1>
+        <h1>Incident Posts</h1>
       )}
 
       {error && <Alert variant="danger">{error}</Alert>}
@@ -81,10 +132,18 @@ const Dashboard = () => {
               <Card.Title>{post.title}</Card.Title>
 
               {post.category && (
-                <Badge bg="info" className="mb-2 text-white">
-                  {post.category}
-                </Badge>
+                <Badge
+                  bg={getBadgeVariant(post.category).split(" ")[0]}
+                  className={`d-inline-block px-3 py-2 mb-3 fs-6 fw-bold rounded-pill text-uppercase ${getBadgeVariant(post.category)
+                  .split(" ")
+                  .slice(1)
+                  .join(" ")}`}
+                >
+                <span className="me-1">{getCategoryIcon(post.category)}</span>
+              {post.category}
+              </Badge>
               )}
+
 
               <Card.Text>{truncateContent(post.content, 200)}</Card.Text>
 

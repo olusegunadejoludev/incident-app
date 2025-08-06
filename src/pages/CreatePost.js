@@ -8,7 +8,7 @@ const CreatePost = () => {
   const [post, setPost] = useState({
     title: "",
     content: "",
-    category: "Tech", // default category
+    category: "", // default category
   });
   const [imageFile, setImageFile] = useState(null);
   const { auth } = useContext(AuthContext);
@@ -112,20 +112,26 @@ const CreatePost = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="category">
-          <Form.Label>Post Category</Form.Label>
-          <Form.Select
-            name="category"
-            value={post.category}
-            onChange={handleChange}
-            required
-          >
-            <option value="Tech">Tech</option>
-            <option value="Politics">Politics</option>
-            <option value="Business">Business</option>
-            <option value="Lifestyle">Lifestyle</option>
-            <option value="Education">Education</option>
-          </Form.Select>
+          <Form.Label>Incident Category</Form.Label>
+            <Form.Select
+              name="category"
+              value={post.category}
+              onChange={handleChange}
+              required
+            >
+          <option value="">Select a category</option>
+          <option value="Crime">Crime</option>
+          <option value="Accident">Accident</option>
+          <option value="Emergency">Emergency</option>
+          <option value="Public Disturbance">Public Disturbance</option>
+          <option value="Missing / Found">Missing / Found</option>
+          <option value="Suspicious Activity">Suspicious Activity</option>
+          <option value="Environmental Hazard">Environmental Hazard</option>
+          <option value="Harassment / Abuse">Harassment / Abuse</option>
+          <option value="Other">Other</option>
+            </Form.Select>
         </Form.Group>
+
 
         <Form.Group className="mb-3" controlId="imageUpload">
           <Form.Label>Upload Image (optional)</Form.Label>

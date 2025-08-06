@@ -3,7 +3,7 @@ import { Headers } from "./client";
 
 // Get all posts
 export const getAllPosts = async () => {
-  const res = await fetch('https://api.jsonbin.io/v3/b/6889c10cae596e708fbe044c/latest', {
+  const res = await fetch('https://api.jsonbin.io/v3/b/68936d6bf7e7a370d1f56a64/latest', {
     headers: Headers,
   });
   const json = await res.json();
@@ -21,7 +21,7 @@ export const getPostById = async (id) => {
 
 // Save updated posts array to JSONBin (FIXED!)
 const savePosts = async (posts) => {
-  await fetch('https://api.jsonbin.io/v3/b/6889c10cae596e708fbe044c', {
+  await fetch('https://api.jsonbin.io/v3/b/68936d6bf7e7a370d1f56a64', {
     method: "PUT",
     headers: Headers,
     body: JSON.stringify(posts), // ✅ save raw array

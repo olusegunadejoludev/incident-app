@@ -22,7 +22,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
-import BlogPost from "./pages/BlogPost";
+import IncidentPost from "./pages/IncidentPost";
 import DeletePost from "./pages/DeletePost";
 
 // Protected route wrapper
@@ -50,7 +50,7 @@ function App() {
             </Route>
 
             {/* Public post route */}
-            <Route path="/posts/:id" element={<BlogPost />} />
+            <Route path="/posts/:id" element={<IncidentPost />} />
           </Routes>
         </main>
         <Footer />
