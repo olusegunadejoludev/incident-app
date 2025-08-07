@@ -30,8 +30,6 @@ function Footer() {
             <img 
             src={incidentLogo} 
             alt="incident logo"
-            height="50"
-            width="40"
             />
           </Link>
           {/* Copyright text with dynamic year */}
